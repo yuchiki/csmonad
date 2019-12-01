@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace csmonad
 {
     using static Maybe<int>;
+    using static UnitType;
     class Program
     {
         static void Main()
@@ -13,6 +14,7 @@ namespace csmonad
             MaybeDemo();
             StringWriterDemo();
             ReaderDemo();
+            StateDemo();
         }
 
         static void ListDemo()
@@ -85,6 +87,39 @@ namespace csmonad
             Console.WriteLine(r.F(15));
             Console.WriteLine();
         }
+
+        static void StateDemo()
+        {
+            State<Stack<int>, int> pop() =>
+                new State<Stack<int>, int>(stack => stack.Pop());
+            State<Stack<int>, UnitType> push(int i) =>
+                new State<Stack<int>, UnitType>(stack => (new Cons<int>(i, stack), Unit));
+
+            var f =
+                from _1 in push(1)
+                from _2 in push(2)
+                from _3 in push(3)
+                from _4 in push(4)
+                from _5 in push(5)
+                from a in pop()
+                from b in pop()
+                from c in pop()
+                select a + b + c;
+
+            var (state, result) = f.F(new Nil<int>());
+
+            Console.WriteLine("state");
+            state.ToList().ForEach(Console.WriteLine);
+            Console.WriteLine($"result = {result}");
+        }
+
     }
 
+    class UnitType
+    {
+        private static UnitType instance = new UnitType();
+        private UnitType() { }
+        public static UnitType Unit = instance;
+
+    }
 }
