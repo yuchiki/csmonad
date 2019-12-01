@@ -22,7 +22,7 @@ namespace csmonad
         public override string ToString() => $"Just({Value})";
     }
 
-    static class MaybeExtension
+    static class MaybeExtensions
     {
         public static Maybe<T> Return<T>(T value) => Maybe<T>.Just(value);
         public static Maybe<T2> Bind<T1, T2>(Maybe<T1> x, Func<T1, Maybe<T2>> f) => x switch

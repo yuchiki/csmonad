@@ -9,7 +9,7 @@ namespace csmonad
         public StringWriter(T value, String log = "") => (Value, Log) = (value, log);
     }
 
-    static class StringWriterExtension
+    static class StringWriterExtensions
     {
         public static StringWriter<T> Return<T>(T value) => new StringWriter<T>(value);
         public static StringWriter<T2> Bind<T1, T2>(StringWriter<T1> sw, Func<T1, StringWriter<T2>> f)

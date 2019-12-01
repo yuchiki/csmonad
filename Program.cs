@@ -12,6 +12,7 @@ namespace csmonad
             ListDemo();
             MaybeDemo();
             StringWriterDemo();
+            ReaderDemo();
         }
 
         static void ListDemo()
@@ -67,6 +68,21 @@ namespace csmonad
 
             Console.WriteLine($"value: {sw.Value}");
             Console.WriteLine($"log:\n{sw.Log}");
+            Console.WriteLine();
+        }
+
+        static void ReaderDemo()
+        {
+            Console.WriteLine("Reader Demo:");
+
+            Reader<int, int> R(Func<int, int> f) => new Reader<int, int>(f);
+            var r =
+                from twice in R(x => x * 2)
+                from l in R(x => x.ToString().Length)
+                from plusHundred in R(x => x + 100)
+                select $"twice: {twice}, length: {l}, * 100: {plusHundred}";
+
+            Console.WriteLine(r.F(15));
             Console.WriteLine();
         }
     }
