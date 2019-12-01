@@ -7,11 +7,26 @@ namespace csmonad
     using static Maybe<int>;
     class Program
     {
-        static void Main() =>
-            new List<Action> {
-                MaybeDemo,
-                StringWriterDemo
-            }.ForEach(f => f());
+        static void Main()
+        {
+            ListDemo();
+            MaybeDemo();
+            StringWriterDemo();
+        }
+
+        static void ListDemo()
+        {
+            Console.WriteLine("ListDemo:");
+
+            var ns =
+                from a in new int[] { 10, 20, 30 }
+                from b in new int[] { 4, 5 }
+                select a + b;
+
+
+            ns.ToList().ForEach(Console.WriteLine);
+            Console.WriteLine();
+        }
 
         static void MaybeDemo()
         {
@@ -36,6 +51,7 @@ namespace csmonad
                 var (ma, mb, mc) = testCase;
                 Console.WriteLine($"{ma} + {mb} + {mc} = {sum(ma, mb, mc)}");
             });
+            Console.WriteLine();
         }
 
         static void StringWriterDemo()
@@ -51,6 +67,7 @@ namespace csmonad
 
             Console.WriteLine($"value: {sw.Value}");
             Console.WriteLine($"log:\n{sw.Log}");
+            Console.WriteLine();
         }
     }
 
